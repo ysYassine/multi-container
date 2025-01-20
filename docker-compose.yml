@@ -1,0 +1,45 @@
+services:
+  private-microservice:
+    build:
+      context: .
+      dockerfile: ./apps/private-microservice/Dockerfile
+    networks:
+      - internal-network
+
+  configurator:
+    depends_on:
+      - private-microservice
+    build:
+      context: .
+      dockerfile: ./apps/configurator/Dockerfile
+    environment:
+      - PRIVATE_MICROSERVICE_URL=http://private-microservice:3000
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    volumes:
+      - api-key:/app/.api-key
+    networks:
+      - internal-network
+
+  public-microservice:
+    depends_on:
+      - private-microservice
+      - configurator
+    build:
+      context: .
+      dockerfile: ./apps/exposed-microservice/Dockerfile
+    environment:
+      - PRIVATE_MICROSERVICE_URL=http://private-microservice:3000
+      - API_KEY=${API_KEY}
+    ports:
+      - '3100:3100'
+    volumes:
+      - api-key:/app/.api-key
+    networks:
+      - internal-network
+
+volumes:
+  api-key:
+
+networks:
+  internal-network:
