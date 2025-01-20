@@ -1,0 +1,26 @@
+{
+  "name": "exposed-microservice",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/exposed-microservice/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "exposed-microservice:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "exposed-microservice:build:development"
+        },
+        "production": {
+          "buildTarget": "exposed-microservice:build:production"
+        }
+      }
+    }
+  }
+}

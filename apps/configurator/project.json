@@ -1,0 +1,26 @@
+{
+  "name": "configurator",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/configurator/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "configurator:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "configurator:build:development"
+        },
+        "production": {
+          "buildTarget": "configurator:build:production"
+        }
+      }
+    }
+  }
+}

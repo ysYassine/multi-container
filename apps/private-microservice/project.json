@@ -1,0 +1,26 @@
+{
+  "name": "private-microservice",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/private-microservice/src",
+  "projectType": "application",
+  "tags": [],
+  "targets": {
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
+      "options": {
+        "buildTarget": "private-microservice:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "private-microservice:build:development"
+        },
+        "production": {
+          "buildTarget": "private-microservice:build:production"
+        }
+      }
+    }
+  }
+}
