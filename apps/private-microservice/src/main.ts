@@ -7,16 +7,22 @@ const adminPassword = process.env['ADMIN_PASSWORD'];
 
 const knownApiKeys = new Set<string>();
 
-function generateApiKey(): string {
-  return Math.random().toString(36).substring(2);
+function generateApiKey(): Promise<string> {
+  return new Promise((resolve) => {
+    // Simulate a delay in generating an API key
+    setTimeout(() => {
+      const apiKey = Math.random().toString(36).substring(2);
+      resolve(apiKey);
+    }, 5000);
+  });
 }
 
 const app = express();
 
-app.post('/api-keys', (req, res) => {
+app.post('/api-keys', async (req, res) => {
   const { username, password } = req.body ?? {};
   if (username === adminUsername && password === adminPassword) {
-    const apiKey = generateApiKey();
+    const apiKey = await generateApiKey();
     knownApiKeys.add(apiKey);
     res.send({ apiKey });
     return;

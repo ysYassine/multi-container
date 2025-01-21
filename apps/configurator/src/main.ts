@@ -18,7 +18,9 @@ async function generateApiKey(): Promise<string> {
 
 async function saveApiKey(apiKey: string): Promise<void> {
   await fs.mkdir('.api-key', { recursive: true });
-  await fs.writeFile('.api-key/.env', `API_KEY=${apiKey}`, { flag: 'w+' });
+  await fs.writeFile('.api-key/.env', `export API_KEY=${apiKey}`, {
+    flag: 'w+',
+  });
 }
 
 async function configure(): Promise<void> {

@@ -30,7 +30,6 @@ services:
       dockerfile: ./apps/exposed-microservice/Dockerfile
     environment:
       - PRIVATE_MICROSERVICE_URL=http://private-microservice:3000
-      - API_KEY=${API_KEY}
     ports:
       - '3100:3100'
     volumes:

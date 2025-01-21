@@ -39,7 +39,7 @@ Adding the initialization logic directly in the Private Microservice container m
 
 4. **Deployment**: Separating the initialization logic into its own service allows for more granular control over the deployment process. We can ensure that the Configurator runs only when necessary, reducing resource usage and potential points of failure.
 
-5. In some cases, we might be using an external image for the Private Microservice that we cannot modify or add any initialization logic to.
+5. In some cases, we might be using an external image for the Private Microservice that we can't modify to implement the initialization as we want. Additionally, using a separate Configurator service allows us to write the initialization logic in languages we are comfortable with, rather than being forced to use something else like probably shell scripts 😊
 
 For these reasons, it is more efficient and secure to handle the initialization logic in a dedicated Configurator service rather than embedding it within the Private Microservice container.
 
@@ -80,4 +80,18 @@ To start all the services, simply run:
 
 ```sh
 docker-compose up
+```
+
+Output:
+
+```
+private-microservice-1  | Listening on port 3000
+public-microservice-1   | Waiting for the api-key to be available
+public-microservice-1   | Attempt 1 of 10
+public-microservice-1   | Next attempt in 5 seconds
+configurator-1          | API key generated and saved
+configurator-1 exited with code 0
+public-microservice-1   | Lauching the app
+public-microservice-1   | Listening on port 3100
+public-microservice-1   | { message: 'API is accessible' }
 ```
